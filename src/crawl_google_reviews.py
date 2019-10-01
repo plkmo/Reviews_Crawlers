@@ -56,7 +56,11 @@ def crawl_google_reviews(search_query="changi+city+point", num_reviews=100):
             break
         
         if len(all_reviews) > 1000:
-            soup = BeautifulSoup(driver.page_source, "html.parser") # start caching lest driver crashes
+            try:
+                soup = BeautifulSoup(driver.page_source, "html.parser") # start caching lest driver crashes
+            except Exception as e:
+                print(e)
+                error_count += 1
     
     if soup is None:
         soup = BeautifulSoup(driver.page_source, "html.parser")
