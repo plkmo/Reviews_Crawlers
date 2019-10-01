@@ -39,22 +39,32 @@ def crawl_google_reviews(search_query="changi+city+point", num_reviews=100):
     
     logger.info("Crawling...")
     error_count = 0
-    all_reviews = WebDriverWait(driver, 7).until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, 'div.gws-localreviews__google-review')))
+    soup = None
+    all_reviews = WebDriverWait(driver, 10).until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, 'div.gws-localreviews__google-review')))
     while len(all_reviews) < num_reviews:
         logger.info("%d/%d crawled." % (len(all_reviews), num_reviews))
-        driver.execute_script('arguments[0].scrollIntoView(true);', all_reviews[-1])
+        
         try:
-            WebDriverWait(driver, 7, 0.25).until_not(EC.presence_of_element_located((By.CSS_SELECTOR, 'div[class$="activityIndicator"]')))
+            driver.execute_script('arguments[0].scrollIntoView(true);', all_reviews[-1])
+            WebDriverWait(driver, 10, 0.25).until_not(EC.presence_of_element_located((By.CSS_SELECTOR, 'div[class$="activityIndicator"]')))
+            all_reviews = driver.find_elements_by_css_selector('div.gws-localreviews__google-review')
         except Exception as e:
             print(e)
             error_count += 1
-            if error_count == 3:
-                break
         
-        all_reviews = driver.find_elements_by_css_selector('div.gws-localreviews__google-review')
+        if error_count == 5:
+            break
+        
+        if len(all_reviews) > 1000:
+            soup = BeautifulSoup(driver.page_source, "html.parser") # start caching lest driver crashes
     
-    soup = BeautifulSoup(driver.page_source, "html.parser")
-    driver.close()
+    if soup is None:
+        soup = BeautifulSoup(driver.page_source, "html.parser")
+    try:
+        driver.close()
+    except Exception as e:
+        print(e)
+        
     logger.info("Finished crawling!")
     
     reviews = soup.find_all("div", class_=re.compile('WMbnJf.+'))
