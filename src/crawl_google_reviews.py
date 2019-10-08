@@ -84,7 +84,7 @@ def crawl_google_reviews(search_query="changi+city+point", num_reviews=100):
             comment = review.find_all("span", tabindex=0)[0].text
         reviews_list.append((comment, star))
     
-    save_as_pickle("reviews.pkl", reviews_list)
+    save_as_pickle("google_reviews_%s.pkl" % search_query.replace("+", "_"), reviews_list)
     with open("./data/google_reviews_%s.txt" % search_query.replace("+", "_"), "w", encoding="utf8") as f:
         for review, star in tqdm(reviews_list, total=len(reviews)):
             f.write("\"" + review + "\"" + " %s" % str(star) + "\n")
