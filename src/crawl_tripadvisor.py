@@ -52,12 +52,13 @@ def crawl_tripadvisor_reviews(search_query="changi+city+point", num_reviews=100)
     reviews_list = []
     for i in tqdm(range(math.ceil(reviews_total/10))):
         # expand reviews
+        time.sleep(7)
         elements = driver.find_elements_by_class_name('ulBlueLinks')
         for element in elements:
+            
             for _ in range(3): # try 3 times per expansion element
                 try:
                     element.click()
-                    time.sleep(1)
                     #element_present = EC.presence_of_element_located((By.ID, element.id))
                     WebDriverWait(driver, timeout)
                 except Exception as e:
