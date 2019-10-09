@@ -5,6 +5,7 @@ Crawls the web for social media comments of specific entity
 
 ## Contents
 1) Google reviews crawler
+2) Tripadvisor reviews crawler
 
 ## Requirements
 Requirements: Python (3.6+), Selenium (https://selenium-python.readthedocs.io/installation.html#downloading-python-bindings-for-selenium), Selenium chromedriver (https://selenium-python.readthedocs.io/installation.html#drivers), Google Chrome browser
