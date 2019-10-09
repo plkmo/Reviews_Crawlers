@@ -91,7 +91,7 @@ def crawl_tripadvisor_reviews(search_query="changi+city+point", num_reviews=100)
     save_as_pickle("tripadvisor_reviews_%s.pkl" % search_query.replace("+", "_"), reviews_list)
     with open("./data/tripadvisor_reviews_%s.txt" % search_query.replace("+", "_"), "w", encoding="utf8") as f:
         for title, review, star in tqdm(reviews_list):
-            f.write(title + " " + "\"" + review + "\"" + " %s" % str(star) + "\n")
+            f.write(title + " " + "@\"" + review + "\"@" + " %s" % str(star) + "\n")
     logger.info("Done and saved!")
     
     return reviews_list
