@@ -52,7 +52,7 @@ def crawl_google_reviews(search_query="changi+city+point", num_reviews=100):
             print(e)
             error_count += 1
         
-        if error_count == 7:
+        if error_count > 7:
             break
         
         if len(all_reviews) > 1000:
