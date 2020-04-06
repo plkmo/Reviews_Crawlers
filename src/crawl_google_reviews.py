@@ -13,20 +13,13 @@ from selenium.webdriver.support import expected_conditions as EC
 import re
 import time
 from bs4 import BeautifulSoup
-import os
-import pickle
+from misc import save_as_pickle
 from tqdm import tqdm
 import logging
 
 logging.basicConfig(format='%(asctime)s [%(levelname)s]: %(message)s', \
                     datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.INFO)
 logger = logging.getLogger('__file__')
-
-def save_as_pickle(filename, data):
-    completeName = os.path.join("./data/",\
-                                filename)
-    with open(completeName, 'wb') as output:
-        pickle.dump(data, output)
         
 def crawl_google_reviews(search_query="changi+city+point", num_reviews=100):
     logger.info("Initialzing webdriver...")
